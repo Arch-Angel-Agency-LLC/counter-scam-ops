@@ -35,6 +35,8 @@ F. Neutral, commonplace phrasing; never use stop‑words (see list).
 - `log_integrity_chain.py` (append rolling hash chain to a log)
 - `decision_helper.py` (suggest next action from simple JSON state)
 - `portal/app.py` (optional Flask IP logging endpoint)
+- `asn_enrich.py` (post-process `session_log.csv` to add ASN & country)
+- `create_sample_agreement.py` (generate a starter DOCX skeleton)
 - `evidence_log_template.csv` (artifact logging header)
 - `wallet_log_template.csv` (wallet capture header)
 - `session_log_template.csv` (portal/session logging header)
@@ -46,6 +48,33 @@ F. Neutral, commonplace phrasing; never use stop‑words (see list).
 - `wording_reference.md` (approved wording / stop-words)
 
 Create working copies: copy each *_template.csv to a same-name file without `_template` before first use (e.g., `cp evidence_log_template.csv evidence_log.csv`).
+
+### Environment Setup
+Install core & optional dependencies:
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Run unit tests (optional):
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q
+```
+
+Generate a sample agreement skeleton:
+
+```bash
+./create_sample_agreement.py --out Agreement_v1.docx --campaign $(openssl rand -hex 4)
+```
+
+Enrich session log after some portal hits:
+
+```bash
+./asn_enrich.py --in session_log.csv --out session_log_enriched.csv
+```
 
 ## Draft Agreement v1 Composition
 Required structural elements:
